@@ -15,8 +15,7 @@ class User < ActiveRecord::Base
     self.friendships.create(friend: user_2)
   end
   
-  #Pending friend requests
-  
+  # Pending friend requests
   def pending_friend_requests_from
   	self.inverse_friendships.where(state: "pending")
   end
@@ -29,4 +28,25 @@ class User < ActiveRecord::Base
   def active_friends
   	self.friendships.where(state: "active").map(&:friend) + self.inverse_friendships.where(state: "active").map(&:user)
   end
+  
+  # Method to check for every possible friendship status
+  def friendship_status(user_2)
+    friendship = Friendship.where(user_id: [self.id,user_2.id], friend_id: [self.id,user_2.id])
+
+    unless friendship.any?
+      return "not_friends"
+    else
+      # Three possibe friends: active, pending or requested
+      if friendship.first.state == "active"
+        return "friends"
+      else
+        if friendship.first.user == self
+          return "pending"
+        else
+          return "requested"
+        end
+      end
+    end
+  end
+  
 end
