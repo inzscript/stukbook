@@ -1,10 +1,11 @@
 class Post < ActiveRecord::Base
     
     include PublicActivity::Model
+    include AutoHtmlFor
     
-    belongs_to :user_id
-    validates_presense_of :user_id
-    validates_presense_of :content
+    belongs_to :user
+    validates_presence_of :user_id
+    validates_presence_of :content
     
     #config auto generate html gem
     auto_html_for :content do

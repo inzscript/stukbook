@@ -19,6 +19,9 @@ class UsersController < ApplicationController
   end
   
   def show
+    # Get posts
+    @post = Post.new
+    @posts = @user.posts
     # Get all activities relative to the user
     @activities = PublicActivity::Activity.where(owner_id: @user.id) + PublicActivity::Activity.where(recipient_id: @user.id)
   end
