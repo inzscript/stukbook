@@ -26,6 +26,7 @@ class FriendshipsController < ApplicationController
 		@friendship.accept_friendship
 		# initiate tracking of friendships uses public_activity
 		@friendship.create_activity key: 'friendship.accepted', owner: @friendship.user, recipient: @friendship.friend
+		@friendship.create_activity key: 'friendship.accepted', owner: @friendship.friend, recipient: @friendship.user
 		respond_to do |format|
 			format.html {redirect_to users_path, notice: "Friendship Accepted"}
 		end

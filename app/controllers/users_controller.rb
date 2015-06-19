@@ -21,9 +21,10 @@ class UsersController < ApplicationController
   def show
     # Get posts
     @post = Post.new
-    @posts = @user.posts
+    @posts = @user.posts.order('created_at DESC')
     # Get all activities relative to the user
-    @activities = PublicActivity::Activity.where(owner_id: @user.id) + PublicActivity::Activity.where(recipient_id: @user.id)
+    # @activities = PublicActivity::Activity.where(owner_id: @user.id) + PublicActivity::Activity.where(recipient_id: @user.id)
+    @activities = PublicActivity::Activity.where(owner_id: @user.id).order('created_at DESC') 
   end
   
   private
